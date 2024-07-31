@@ -11,9 +11,9 @@ export const useInitScene: () => Scene = () => {
 export const useInitCamera: () => PerspectiveCamera = () => {
     const camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(0,1,10);
-    // camera.position.y = 300;
+    camera.position.y = 300;
     
-    // camera.lookAt(0, 300, 0);
+    camera.lookAt(0, 300, 0);
     camera.updateProjectionMatrix();
 
     return camera;

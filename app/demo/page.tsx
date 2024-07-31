@@ -251,15 +251,17 @@ export default function Page() {
             const index = intersectedObject.name.slice(0, 1);
             setLayer(Number(index) + 1)
 
-            let yLook = 30;
+            let yLook = 0;
             for (let i = 0; i < layerList.length; i++) {
                 layerList[i].traverse((child: any) => {
+                    if(child.isGroup) {
+                        yLook = child.position.y;
+                    }
                     if(child instanceof Mesh) {
                         if(i === Number(index)) {
                             child.visible = true;
                             child.material.opacity = 1;
                             child.material.color = colorObj[child.name.slice(4)];
-                            yLook += child.position.y;
                         }else {
                             child.visible = false;
                         }
@@ -267,14 +269,18 @@ export default function Page() {
                 })
             }
             
-            camera.position.set(0,yLook,0);
-            camera.lookAt(0,yLook,0);
+            camera.position.set(0,yLook + 30,0);
+            camera.lookAt(0,yLook + 30,0);
             camera.updateProjectionMatrix();
 
             window.removeEventListener('mousemove', moveHandle)
         }else {
             scene.children.forEach(child => {
-                child.visible = true;
+                child.traverse((c: any) => {
+                    if(c instanceof Mesh) {
+                        c.visible = true;
+                    }
+                })
             })
             setLayer(0)
             
